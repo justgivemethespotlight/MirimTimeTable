@@ -3556,6 +3556,115 @@ button, input, textarea, select, option {
 .account-identity strong { color: var(--text); font-size: 0.9rem; font-weight: 600; }
 .account-identity div span { color: var(--text-soft); font-size: 0.74rem; }
 
+.account-brand-logo {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.account-provider-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: -4px 0 0;
+  color: var(--text-soft);
+  font-size: 0.68rem;
+  line-height: 1.4;
+}
+
+.account-provider-note .google-mark {
+  width: 13px;
+  height: 13px;
+}
+
+.account-lightframe-toggle {
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: linear-gradient(104deg, #008b79 0%, #1525c9 31%, #a916e7 58%, #ed76b0 80%, #f1d37c 100%);
+  color: #fff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-shadow: 0 1px 7px rgba(20, 10, 38, 0.28);
+  cursor: pointer;
+  transition: transform 140ms ease, filter 160ms ease;
+}
+
+.account-lightframe-toggle:active { transform: scale(0.985); }
+.account-lightframe-toggle:hover { filter: brightness(1.06) saturate(1.04); }
+
+.account-email-form {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface-soft);
+}
+
+.account-email-form[hidden] { display: none; }
+.account-email-intro {
+  margin: 0 0 2px;
+  color: var(--text-muted);
+  font-size: 0.73rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.account-email-form .setup-field { gap: 5px; }
+.account-email-form input {
+  width: 100%;
+  min-height: 42px;
+  box-sizing: border-box;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: 0;
+  background: var(--toggle-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.account-email-form input:focus {
+  border-color: var(--focus-glow);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--focus-glow-soft);
+}
+
+.account-email-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.account-email-actions button {
+  min-height: 40px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.account-email-actions .primary-action {
+  border: 0;
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.account-email-message {
+  min-height: 1.35em;
+  margin: 0;
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
+.account-email-message[data-tone="error"] { color: #ff5a5f; }
+.account-email-message[data-tone="success"] { color: #34c759; }
+
 .account-avatar {
   display: inline-flex;
   flex: 0 0 40px;

@@ -158,17 +158,26 @@
         </div>
         <div id="accountUnavailable" class="account-notice" role="status" hidden>
           <strong>계정 기능 준비 중</strong>
-          <span>Supabase 연결 설정을 완료하면 Google 로그인을 사용할 수 있습니다.</span>
+          <span>연결 설정을 완료하면 Lightframe. 계정을 사용할 수 있습니다.</span>
         </div>
         <div id="accountSignedOut" class="account-state" hidden>
           <div class="account-identity">
-            <span class="account-avatar" aria-hidden="true">T</span>
-            <div><strong>이 기기에만 저장 중</strong><span>로그인하지 않아도 Tile은 계속 사용할 수 있어요.</span></div>
+            <img class="account-brand-logo" src="./assets/lightframe-logo.png" alt="Lightframe.">
+            <div><strong>Lightframe. 계정으로 이어서 사용하기</strong><span>로그인하면 시간표와 설정을 다른 기기에서도 이어서 사용할 수 있어요.</span></div>
           </div>
+          <button id="lightframeEmailToggle" class="account-lightframe-toggle" type="button" aria-expanded="false" aria-controls="lightframeEmailForm">Lightframe. 계정으로 시작하기</button>
+          <form id="lightframeEmailForm" class="account-email-form" hidden>
+            <p class="account-email-intro">이메일과 비밀번호로 Lightframe. 계정에 로그인하거나 새로 만들 수 있습니다.</p>
+            <label class="setup-field" for="lightframeEmailInput"><span>이메일</span><input id="lightframeEmailInput" type="email" autocomplete="email" inputmode="email" placeholder="name@example.com" required></label>
+            <label class="setup-field" for="lightframePasswordInput"><span>비밀번호</span><input id="lightframePasswordInput" type="password" autocomplete="current-password" minlength="8" placeholder="8자 이상" required></label>
+            <div class="account-email-actions"><button id="lightframePasswordSignIn" class="secondary-action" type="submit">로그인</button><button id="lightframePasswordSignUp" class="primary-action" type="button">계정 만들기</button></div>
+            <p id="lightframeEmailMessage" class="account-email-message" aria-live="polite"></p>
+          </form>
           <button id="googleSignIn" class="account-primary-action" type="button">
             <img class="google-mark" src="./assets/google-g-logo.png" alt="">
-            <span>Google로 계속하기</span>
+            <span>Google로 시작하기</span>
           </button>
+          <p class="account-provider-note"><img class="google-mark" src="./assets/google-g-logo.png" alt=""> Google 계정으로 Lightframe. 계정을 만들거나 로그인합니다.</p>
         </div>
         <div id="accountSignedIn" class="account-state" hidden>
           <div class="account-identity">
@@ -634,7 +643,7 @@
   <script src="./config.js?v=20260703-script-fix" onerror="this.remove()"></script>
   <script src="./neis.js?v=20260727-review-fixes"></script>
   <script src="./script.js?v=20260904-share-room-restore"></script>
-  <script src="./auth.js?v=20260906-production-return"></script>
+  <script src="./auth.js?v=20260906-lightframe-account"></script>
   <script src="./share.js?v=20260904-share-preview-ux"></script>
 </body>
 </html>

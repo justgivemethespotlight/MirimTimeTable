@@ -5,7 +5,10 @@
   const byId = (id) => document.getElementById(id);
   const nodes = {
     unavailable: byId("accountUnavailable"), signedOut: byId("accountSignedOut"), signedIn: byId("accountSignedIn"),
-    googleSignIn: byId("googleSignIn"), avatar: byId("accountAvatar"), displayName: byId("accountDisplayName"),
+    googleSignIn: byId("googleSignIn"), lightframeEmailToggle: byId("lightframeEmailToggle"), lightframeEmailForm: byId("lightframeEmailForm"),
+    lightframeEmail: byId("lightframeEmailInput"), lightframePassword: byId("lightframePasswordInput"),
+    lightframeSignIn: byId("lightframePasswordSignIn"), lightframeSignUp: byId("lightframePasswordSignUp"), lightframeEmailMessage: byId("lightframeEmailMessage"),
+    avatar: byId("accountAvatar"), displayName: byId("accountDisplayName"),
     email: byId("accountEmail"), message: byId("accountMessage"), backupStatus: byId("cloudBackupStatus"),
     backup: byId("backupCloudData"), restore: byId("restoreCloudData"), restorePanel: byId("restoreConfirmPanel"),
     restoreDescription: byId("restoreConfirmDescription"), cancelRestore: byId("cancelCloudRestore"),
@@ -45,6 +48,11 @@
     if (!nodes.message) return;
     nodes.message.textContent = message;
     nodes.message.dataset.tone = tone;
+  }
+  function setEmailMessage(message = "", tone = "") {
+    if (!nodes.lightframeEmailMessage) return;
+    nodes.lightframeEmailMessage.textContent = message;
+    nodes.lightframeEmailMessage.dataset.tone = tone;
   }
   function setBusy(button, busy) {
     if (!button) return;
@@ -164,6 +172,49 @@
     }
   }
 
+  function getEmailCredentials() {
+    const email = String(nodes.lightframeEmail?.value || "").trim();
+    const password = String(nodes.lightframePassword?.value || "");
+    if (!email || !password) {
+      setEmailMessage("이메일과 비밀번호를 입력해주세요.", "error");
+      return null;
+    }
+    return { email, password };
+  }
+
+  async function signInWithLightframeAccount(event) {
+    event?.preventDefault();
+    if (!client) return;
+    const credentials = getEmailCredentials();
+    if (!credentials) return;
+    setBusy(nodes.lightframeSignIn, true);
+    setEmailMessage("Lightframe. 계정에 로그인하고 있습니다.");
+    const { error } = await client.auth.signInWithPassword(credentials);
+    setBusy(nodes.lightframeSignIn, false);
+    if (error) return setEmailMessage(error.message, "error");
+    setEmailMessage("");
+  }
+
+  async function signUpWithLightframeAccount() {
+    if (!client) return;
+    const credentials = getEmailCredentials();
+    if (!credentials) return;
+    if (credentials.password.length < 8) return setEmailMessage("비밀번호는 8자 이상으로 입력해주세요.", "error");
+    setBusy(nodes.lightframeSignUp, true);
+    setEmailMessage("Lightframe. 계정을 만들고 있습니다.");
+    const { data, error } = await client.auth.signUp({
+      ...credentials,
+      options: { emailRedirectTo: getAuthRedirectUrl(), data: { full_name: "Lightframe. 사용자" } }
+    });
+    setBusy(nodes.lightframeSignUp, false);
+    if (error) return setEmailMessage(error.message, "error");
+    if (!data.session) {
+      setEmailMessage("인증 메일을 보냈습니다. 메일의 링크를 열어 계정을 완료해주세요.", "success");
+      return;
+    }
+    setEmailMessage("");
+  }
+
   async function backupCurrentData() {
     if (!client || !currentSession?.user) return;
     const payload = window.TileApp?.createAccountBackup?.();
@@ -239,6 +290,14 @@
   function bindEvents() {
     nodes.accountEntry?.addEventListener("click", openAccountSettings);
     nodes.googleSignIn?.addEventListener("click", signInWithGoogle);
+    nodes.lightframeEmailToggle?.addEventListener("click", () => {
+      const isOpen = !nodes.lightframeEmailForm?.hidden;
+      setHidden(nodes.lightframeEmailForm, isOpen);
+      nodes.lightframeEmailToggle?.setAttribute("aria-expanded", String(!isOpen));
+      if (!isOpen) window.setTimeout(() => nodes.lightframeEmail?.focus(), 0);
+    });
+    nodes.lightframeEmailForm?.addEventListener("submit", signInWithLightframeAccount);
+    nodes.lightframeSignUp?.addEventListener("click", signUpWithLightframeAccount);
     nodes.backup?.addEventListener("click", backupCurrentData);
     nodes.restore?.addEventListener("click", prepareRestore);
     nodes.cancelRestore?.addEventListener("click", () => { pendingRestore = null; setHidden(nodes.restorePanel, true); setMessage(""); });
