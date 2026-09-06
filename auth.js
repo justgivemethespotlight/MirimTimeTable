@@ -141,7 +141,7 @@
     setHidden(nodes.signedIn, !user);
     sessionSubscribers.forEach((subscriber) => subscriber(session));
     if (!user) return;
-    const name = user.user_metadata?.full_name || user.user_metadata?.name || "Tile 사용자";
+    const name = user.user_metadata?.full_name || user.user_metadata?.name || "Lightframe. 사용자";
     if (nodes.avatar) nodes.avatar.textContent = getInitial(user);
     if (nodes.displayName) nodes.displayName.textContent = name;
     if (nodes.email) nodes.email.textContent = user.email || "Google 계정";
@@ -175,7 +175,7 @@
     setBusy(nodes.backup, false);
     if (error) return setMessage(error.message, "error");
     if (nodes.backupStatus) nodes.backupStatus.textContent = formatDate(updatedAt);
-    setMessage("현재 시간표를 Tile 계정에 백업했습니다.", "success");
+    setMessage("현재 시간표를 Lightframe. 계정에 백업했습니다.", "success");
     window.TileApp?.notify?.("계정 백업 완료", "다른 기기에서 로그인해 불러올 수 있습니다.");
   }
 
@@ -225,7 +225,7 @@
       if (!response.ok) throw new Error(body.error || "계정을 삭제하지 못했습니다.");
       await client.auth.signOut({ scope: "local" });
       setHidden(nodes.deletePanel, true);
-      window.TileApp?.notify?.("Tile 계정을 삭제했습니다", "이 기기에 저장된 시간표는 유지됩니다.");
+      window.TileApp?.notify?.("Lightframe. 계정을 삭제했습니다", "이 기기에 저장된 시간표는 유지됩니다.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "계정 삭제에 실패했습니다.", "error");
     } finally { setBusy(nodes.confirmDelete, false); }
