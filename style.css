@@ -3448,16 +3448,23 @@ body.light-mode .subject-modal {
 }
 
 .share-privacy-note {
-  padding: 4px 2px;
+  padding: 2px;
   border: 0;
   background: transparent;
 }
 
+.share-privacy-notes {
+  display: grid;
+  gap: 3px;
+  margin-top: -7px;
+}
+
 .share-privacy-note strong {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--text-soft);
-  font-size: 0.72rem;
+  display: inline;
+  margin: 0;
+  color: var(--text);
+  font-size: 0.8rem;
+  letter-spacing: -0.025em;
 }
 
 .share-privacy-note p {
